@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<style>
+*{ padding:0; margin:0; list-style:none; border: 0;}
+.all{ width:1200px; height:441px; border: 1px solid #ccc;  padding:5px; margin:100px auto; position:relative; font-size:12px;}
+.all .show{width:1200px; height:441px; overflow:hidden; position:relative;}
+.all ul{ width:9999px; position:absolute; left:0; top:0;}
+.all li{ float:left;}
+
+.all ol{ position:absolute; right:15px; bottom:15px;}
+.all ol li{ text-align: center; line-height:20px; cursor:pointer; width:20px; height:20px; background:#fff; border: 1px solid #ccc; float:left; margin-left:5px;}
+.all ol .current{ background:yellow;}
+.all span{ width:60px; height:60px; background:rgba(0,0,0,0.3); color:#fff; line-height:60px; text-align: center; position:absolute; left:0; top:0; font-size:80px; cursor:pointer;}
+.all span.left{ left:0; top:50px;}
+.all span.right{ left:auto; right:0; top:50px;}
+</style>
+<script src="../jquery-3.0.0.min.js"></script>
+<script>
+$(function(){	
+	//自动播放
+	var num=0;
+	var timer=null;
+	
+	timer=setInterval(sport,1000)
+	
+	function sport(){	
+		num++;
+		if( num>4 ){ num=0 }
+		$('.all ul').animate({left:num*-1200},3000)
+		$('.all ol li').eq(num).addClass('current').siblings().removeClass();
+	}
+	
+	//我们先来制作鼠标移上切换图片的功能
+	$('.all ol li').mouseover(function(e) {
+        //两部分工作，角标和ul的位移；
+		$(this).addClass('current').siblings().removeClass();
+		
+		$('.all ul').stop().animate({left: $(this).index()*-1200 },3000)
+		num=$(this).index();
+    });
+	
+	$('.all').hover(function(e) {
+        clearInterval(timer)
+    },function(){	
+		clearInterval(timer)
+		timer=setInterval(sport,1000)
+	});
+	
+	$('.all .right').click(function(e) {
+		num++;
+		if( num>4 ){ num=0 }
+		$('.all ul').animate({left:num*-1200},3000)
+		$('.all ol li').eq(num).addClass('current').siblings().removeClass();
+    });
+	$('.all .left').click(function(e) {
+		num--;
+		if( num<0 ){ num=4 }
+		$('.all ul').animate({left:num*-1200},3000)
+		$('.all ol li').eq(num).addClass('current').siblings().removeClass();
+    });
+})
+</script>
+
+</head>
+
+<body>
+<div class="all">
+	<div class="show">
+        <ul>
+            <li><img src="01.jpg" width="1200" height="441" alt=""/></li>
+            <li><img src="02.jpg" width="1200" height="441" alt=""/></li>
+            <li><img src="03.jpg" width="1200" height="441" alt=""/></li>
+<!--            <li><img src="images/taobao/02.jpg" width="490" height="170" alt=""/></li>
+            <li><img src="images/taobao/03.jpg" width="490" height="170" alt=""/></li>
+            <li><img src="images/taobao/04.jpg" width="490" height="170" alt=""/></li>
+            <li><img src="images/taobao/05.jpg" width="490" height="170" alt=""/></li>-->
+        </ul>
+    </div>
+	<ol>
+    	<li class="current">1</li>
+    	<li>2</li>
+    	<li>3</li>
+    	<li>4</li>
+    	<li>5</li>
+    </ol>
+    <span class="left"> < </span>
+    <span class="right"> > </span>
+</div>
+</body>
+</html>
